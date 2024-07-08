@@ -16,7 +16,7 @@ export default function CountryDetails() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="m-auto mt-auto p-3 w-[90%] max-w-2xl border rounded-lg shadow-md text-center">
+    <div className="m-auto p-3 w-[90%] max-w-2xl border rounded-lg shadow-md text-center">
       <div>{country.emoji}</div>
       <h1>
         Name: {country.name} ({country.code})
