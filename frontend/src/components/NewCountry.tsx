@@ -1,4 +1,7 @@
-import { useCreateCountryMutation } from "@/graphql/generated/schema";
+import {
+  useContinentsQuery,
+  useCreateCountryMutation,
+} from "@/graphql/generated/schema";
 import { useRouter } from "next/router";
 
 type NewCountryProps = {
@@ -7,12 +10,16 @@ type NewCountryProps = {
 };
 export default function NewCountry({ onOpen, refetch }: NewCountryProps) {
   const [createCountry] = useCreateCountryMutation();
+  const { data, error, loading } = useContinentsQuery();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const formJson: any = Object.fromEntries(formData.entries());
+    formJson.continent = { id: parseInt(formJson.continent, 10) };
+    console.log(formJson);
+
     try {
       await createCountry({ variables: { data: formJson } });
       refetch();
@@ -56,6 +63,16 @@ export default function NewCountry({ onOpen, refetch }: NewCountryProps) {
               placeholder="Emoji"
               required
             />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="continent">Continent</label>
+            <select id="continent" name="continent">
+              {data?.continents.map((continent) => (
+                <option key={continent.id} value={continent.id}>
+                  {continent.name}
+                </option>
+              ))}
+            </select>
           </div>
           <button
             className="bg-rose-500 rounded-lg w-max px-2 text-white"

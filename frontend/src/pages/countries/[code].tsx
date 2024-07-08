@@ -1,4 +1,5 @@
 import { useCountryQuery } from "@/graphql/generated/schema";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -16,12 +17,19 @@ export default function CountryDetails() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="m-auto p-3 w-[90%] max-w-2xl border rounded-lg shadow-md text-center">
-      <div>{country.emoji}</div>
-      <h1>
-        Name: {country.name} ({country.code})
-      </h1>
-      <p>Continent : {country.continent ? country.continent.name : "N/A"}</p>
-    </div>
+    <>
+      <div className="m-auto w-[90%] max-w-2xl mb-2">
+        <Link href={`/`} className="w-max px-2 text-rose-500">
+          Retour - Liste des pays
+        </Link>
+      </div>
+      <div className="m-auto p-3 w-[90%] max-w-2xl border rounded-lg shadow-md text-center">
+        <div>{country.emoji}</div>
+        <h1>
+          Name: {country.name} ({country.code})
+        </h1>
+        <p>Continent : {country.continent ? country.continent.name : "N/A"}</p>
+      </div>
+    </>
   );
 }
